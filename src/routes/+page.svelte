@@ -1,6 +1,6 @@
 <script>
     import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
-    import { Label, Input, Button } from 'flowbite-svelte';
+    import { Label, Input, Button , P} from 'flowbite-svelte';
     import { Heading , Hr} from 'flowbite-svelte';
     import { Progressbar } from 'flowbite-svelte';
     import { sineOut } from 'svelte/easing';
@@ -19,8 +19,80 @@
     $: lastName;
 
     // function to calculate the attendance rate of a student
+    let totalReservations = 0;
+    let cancellations;
+    let controllableCancellations;
+    let uncontrollableCancellations;
+    let cancellationArray = [];
+    let uncontrollableCancellationReasons = [
+        "Aircraft/Sim Unavailable",
+
+        "Client - sick",
+        "Client - family emergency",
+        "Client - fatigue",
+        "Client - injury",
+        "Client - no show/no-call",
+        "Client - technical issue (remote session)",
+        "Client - transportation issue",
+
+        "Instructor - instructor is sick",
+        "Instructor - personal scheduling conflict",
+
+        "Maintenance issue - before start",
+        "Maintenance issue - after start",
+        "Crew - unavailable",
+        "Flight Training Professionals",
+        "Other",
+        "Reschedule - booking is not needed",
+        "Reschedule - changing booking",
+        "Reschedule - client has completed the course",
+        "Reschedule - client is scheduled for progress check",
+        "Reschedule - scheduling error",
+        "Test booking - system operations check",
+        "Test booking - training",
+        "Weather - excessive crosswinds",
+        "Weather - excessive total winds",
+        "Weather - low cloud layers/ceilings",
+        "Weather - low visibilities",
+        "Weather - thunderstorms"
+    ];
+    let controllableCancellationReasons = [
+        "Client - client discontinued training",
+        "Client - forgot booking",
+        "Client - overslept",
+        "Client - personal scheduling conflict",
+        "Client - short notice cancellation",
+        "Client - unprepared for lesson",
+    ];
     function calculateAttendanceRate() {
 
+        totalReservations = 0;
+        cancellations = 0;
+        controllableCancellations = 0;
+        uncontrollableCancellations = 0;
+
+        // empty the cancellation array
+        cancellationArray.length = 0;
+
+        if (notFound == false) {
+            for (let i = 0; i < studentList[selectedIndex].registrationList.length; i++) {
+                totalReservations++;
+                
+                if (studentList[selectedIndex].registrationList[i].cancellation != null) {
+                    cancellations++;
+
+                    cancellationArray.push({
+                        title: studentList[selectedIndex].registrationList[i].cancellation.title,
+                    });
+
+                    if (uncontrollableCancellationReasons.contains(studentList[selectedIndex].registrationList[i].cancellation.title)) {
+                        uncontrollableCancellations++;
+                    } else {
+                        controllableCancellations++;
+                    }
+                }
+            }
+        }
     }
 
     
@@ -381,7 +453,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -609,7 +682,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -887,7 +961,8 @@
             "vfrSimSeconds": 3600,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -1008,7 +1083,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 5400,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -1516,7 +1592,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {
@@ -1798,7 +1875,8 @@
             "vfrSimSeconds": 4320,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -2010,7 +2088,8 @@
             "vfrSimSeconds": 6840,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -2063,7 +2142,8 @@
             "vfrSimSeconds": 5760,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -2394,7 +2474,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -3276,7 +3357,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -3684,7 +3766,8 @@
             "vfrSimSeconds": 5040,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -4102,10 +4185,15 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Weather - excessive total winds",
+            "comment": "1"
+          }
         },
         {
           "registration": {
@@ -4158,7 +4246,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {
@@ -4370,7 +4459,8 @@
             "vfrSimSeconds": 4680,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -4581,7 +4671,8 @@
             "vfrSimSeconds": 5400,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -4634,7 +4725,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -4825,7 +4917,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {
@@ -5174,7 +5267,8 @@
             "vfrSimSeconds": 6480,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -5592,7 +5686,8 @@
             "vfrSimSeconds": 3600,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -5874,7 +5969,8 @@
             "vfrSimSeconds": 7200,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -6225,10 +6321,15 @@
             "vfrSimSeconds": 6120,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Weather - excessive total winds",
+            "comment": "1"
+          }
         },
         {
           "registration": {
@@ -6776,7 +6877,8 @@
             "vfrSimSeconds": 5400,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -7124,7 +7226,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -7476,10 +7579,15 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Client - short notice cancellation",
+            "comment": "drive sister to Ft Lauderdale"
+          }
         },
         {
           "registration": {
@@ -7690,10 +7798,15 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Client - short notice cancellation",
+            "comment": "1"
+          }
         },
         {
           "registration": {
@@ -8031,10 +8144,15 @@
             "vfrSimSeconds": 4320,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Client - short notice cancellation",
+            "comment": "1"
+          }
         },
         {
           "registration": {
@@ -8389,7 +8507,8 @@
             "vfrSimSeconds": 3960,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {
@@ -8712,7 +8831,8 @@
             "vfrSimSeconds": 3960,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {},
@@ -9596,7 +9716,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -10144,7 +10265,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -10692,7 +10814,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -10745,7 +10868,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -11100,7 +11224,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -11221,11 +11346,16 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 5760,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {},
         {
-          "registration": null
+          "registration": null,
+          "cancellation": {
+            "title": "Reschedule - client is scheduled for progress check",
+            "comment": "1"
+          }
         },
         {
           "registration": {
@@ -11643,7 +11773,8 @@
             "vfrSimSeconds": 0,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         },
         {
           "registration": {
@@ -11696,7 +11827,8 @@
             "vfrSimSeconds": 3600,
             "vfrSoloSeconds": 0,
             "vfrSpicSeconds": 0
-          }
+          },
+          "cancellation": null
         }
     ];
 
@@ -11708,6 +11840,7 @@
             for (let j = 0; j < studentList.length; j++) {
                 if (studentList[j].id == dataArray[i].registration.student.id) {
                     caught = true;
+                    studentList[j].registrationList.push(dataArray[i].registration);
                 }
             }
 
@@ -11716,10 +11849,13 @@
                     firstName: dataArray[i].registration.student.firstName,
                     lastName: dataArray[i].registration.student.lastName,
                     id: dataArray[i].registration.student.id,
+                    registrationList: [dataArray[i].registration]
                 });
             }
         }
     }
+
+    console.log(studentList);
 
     // sort student list by first and last name
     function compareFirst(a,b) {
@@ -11961,6 +12097,8 @@
 <Hr />
 
 <Heading tag='h3'>Attendance Rate</Heading>
+
+<P>Total Reservations: {totalReservations}</P>
 
 {/if}
 
