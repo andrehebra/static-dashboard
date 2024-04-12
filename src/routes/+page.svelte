@@ -12099,6 +12099,9 @@
 <Heading tag='h3'>Attendance Rate</Heading>
 
 <P>Total Reservations: {totalReservations}</P>
+<P>Total Cancellations: {cancellations}</P>
+<P>Controllable Cancellation Rate: </P>
+<Progressbar progress={(controllableCancellations / totalReservations) * 100} />
 
 {/if}
 
