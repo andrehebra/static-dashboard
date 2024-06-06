@@ -581,7 +581,7 @@
 
   <Hr></Hr>
 
-  <Heading tag='h3'>Lesson Completion Rate</Heading>
+  <Heading tag='h3'>Lesson Pass Rate</Heading>
   <P>The percentage of the time that a lesson is marked as satisfactory. This does not include cancellations.</P>
   <Table hoverable={true} shadow>
     <TableHead>
@@ -599,8 +599,8 @@
   </Table>
 
   <div class="my-4">
-    <div class="mb-1 text-lg font-medium dark:text-white">Failure Rate</div>
-    <Progressbar size="h-4" labelInside progress={failureRate} />
+    <div class="mb-1 text-lg font-medium dark:text-white">Pass Rate</div>
+    <Progressbar size="h-4" labelInside progress={100 - failureRate} />
   </div>
 
   <Hr></Hr>
