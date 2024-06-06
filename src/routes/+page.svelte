@@ -355,6 +355,7 @@
 
       if (studentIndex == -1) {
         notFound = true;
+        console.log("not found");
         return;
       }
 
@@ -363,8 +364,10 @@
     }
 
     //get URL parameters to see if a student has been selected based on URL
+    // append URL like this: /?id=97651
     const url = $page.url;
     if (url.searchParams.get('id') != null) {
+      console.log(url.searchParams);
         selectStudent(url.searchParams.get('id'));
     }
     
