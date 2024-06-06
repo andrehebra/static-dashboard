@@ -55,6 +55,7 @@
 
     let controllableCancellationRate = 0;
     let uncontrollableCancellationRate = 0;
+    let overallCancellationRate = 0;
 
     //how often a lesson is marked as passed or failed
     let failureCount = 0;
@@ -458,6 +459,8 @@
 
     
     function calculateCancellationRate() {
+      let total = currentStudent.cancellations.length + currentStudent.reservations.length;
+
       for (let i = 0; i < currentStudent.cancellations.length; i++) {
         if (uncontrollableCancellationReasons.includes(currentStudent.cancellations[i].title)) {
           uncontrollableCancellationRate++;
@@ -465,12 +468,16 @@
           controllableCancellationRate++;
         }
       }
+      
+      overallCancellationRate = currentStudent.cancellations.length;
+      overallCancellationRate = overallCancellationRate / total;
 
-      controllableCancellationRate = controllableCancellationRate / (currentStudent.cancellations.length + currentStudent.reservations.length);
-      uncontrollableCancellationRate = uncontrollableCancellationRate / (currentStudent.cancellations.length + currentStudent.reservations.length);
+      controllableCancellationRate = controllableCancellationRate / total;
+      uncontrollableCancellationRate = uncontrollableCancellationRate / total;
 
       controllableCancellationRate *= 100;
       uncontrollableCancellationRate *= 100;
+      overallCancellationRate *= 100;
     }
 
     
@@ -543,7 +550,7 @@
 
   <div class="my-4">
     <div class="mb-1 text-lg font-medium dark:text-white">Overall Cancellation Rate</div>
-    <Progressbar size="h-4" labelInside progress={(currentStudent.cancellations.length / (currentStudent.reservations.length + currentStudent.cancellations.length)) * 100} />
+    <Progressbar size="h-4" labelInside progress={overallCancellationRate} />
   </div>
   <div class="my-4">
     <div class="mb-1 text-lg font-medium dark:text-white">Controllable Cancellation Rate</div>
