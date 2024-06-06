@@ -396,12 +396,14 @@
     <TableHead>
       <TableHeadCell>Name</TableHeadCell>
       <TableHeadCell>Id</TableHeadCell>
+      <TableHeadCell></TableHeadCell>
     </TableHead>
     <TableBody>
         {#each nameIdList as student}
-            <TableBodyRow on:click={() => {selectStudent(student.id)}}>
+            <TableBodyRow>
                 <TableBodyCell>{student.name}</TableBodyCell>
                 <TableBodyCell>{student.id}</TableBodyCell>
+                <TableBodyCell><a href={"./?id=" + student.id}>Go To</a></TableBodyCell>
             </TableBodyRow>
         {/each}
     </TableBody>
