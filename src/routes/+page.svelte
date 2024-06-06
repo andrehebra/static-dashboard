@@ -7,6 +7,7 @@
     import { DarkMode } from 'flowbite-svelte';
     import { Select } from 'flowbite-svelte';
     import { Spinner } from 'flowbite-svelte';
+    import { Search } from 'flowbite-svelte';
 
     import { browser } from '$app/environment';
 
@@ -386,6 +387,19 @@
     import data from "./data.json";
     import dataInformation from "./dataInformation.json";
     import nameIdList from "./nameIdList.json";
+    let displayIdList = nameIdList.slice();
+    let searchParam = "";
+
+    function calculateSearchResults() {
+      console.log("calcualte search results");
+        displayIdList.length = 0;
+        console.log(nameIdList)
+        for (let i = 0; i < nameIdList.length; i++) {
+            if (nameIdList[i].name.toLowerCase().includes(searchParam.toLowerCase())) {
+                displayIdList.push(nameIdList[i]);
+            }
+        }
+    }
 
     import { page } from "$app/stores";
 	import { getOperationAST } from 'graphql';
@@ -482,6 +496,9 @@
 
 <Heading tag='h2'>Select Student</Heading>
 <Hr />
+
+<Search on:input={() => {calculateSearchResults()}} bind:value={searchParam}>
+</Search>
 <div class="padding"></div>
 <Table hoverable={true} shadow>
     <TableHead>
@@ -490,7 +507,7 @@
       <TableHeadCell></TableHeadCell>
     </TableHead>
     <TableBody>
-        {#each nameIdList as student}
+        {#each displayIdList as student}
             <TableBodyRow>
                 <TableBodyCell>{student.name}</TableBodyCell>
                 <TableBodyCell>{student.id}</TableBodyCell>
