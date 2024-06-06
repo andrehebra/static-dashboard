@@ -338,6 +338,7 @@
     import nameIdList from "./nameIdList.json";
 
     import { page } from "$app/stores";
+	import { getOperationAST } from 'graphql';
 
     let selected = false;
     let studentIndex;
@@ -361,6 +362,9 @@
 
       currentStudent = data[studentIndex];
       selected = true;
+
+      calculateCancellationRate();
+      calculateFailures();
     }
 
     //get URL parameters to see if a student has been selected based on URL
@@ -369,6 +373,87 @@
     if (url.searchParams.get('id') != null) {
       console.log(url.searchParams);
         selectStudent(url.searchParams.get('id'));
+    }
+
+    //valid reasons for cancellations
+    let uncontrollableCancellationReasons = [
+        "Aircraft/Sim Unavailable",
+
+        "Client - sick",
+        "Client - family emergency",
+        "Client - fatigue",
+        "Client - injury",
+        "Client - no show/no-call",
+        "Client - technical issue (remote session)",
+        "Client - transportation issue",
+
+        "Instructor - instructor is sick",
+        "Instructor - personal scheduling conflict",
+
+        "Maintenance issue - before start",
+        "Maintenance issue - after start",
+        "Crew - unavailable",
+        "Flight Training Professionals",
+        "Other",
+        "Reschedule - booking is not needed",
+        "Reschedule - changing booking",
+        "Reschedule - client has completed the course",
+        "Reschedule - client is scheduled for progress check",
+        "Reschedule - scheduling error",
+        "Test booking - system operations check",
+        "Test booking - training",
+        "Weather - excessive crosswinds",
+        "Weather - excessive total winds",
+        "Weather - low cloud layers/ceilings",
+        "Weather - low visibilities",
+        "Weather - thunderstorms"
+    ];
+    let controllableCancellationReasons = [
+        "Client - client discontinued training",
+        "Client - forgot booking",
+        "Client - overslept",
+        "Client - personal scheduling conflict",
+        "Client - short notice cancellation",
+        "Client - unprepared for lesson",
+    ];
+
+    let controllableCancellationRate = 0;
+    let uncontrollableCancellationRate = 0;
+    function calculateCancellationRate() {
+      for (let i = 0; i < currentStudent.cancellations.length; i++) {
+        if (uncontrollableCancellationReasons.includes(currentStudent.cancellations[i].title)) {
+          uncontrollableCancellationRate++;
+        } else if (controllableCancellationReasons.includes(currentStudent.cancellations[i].title)) {
+          controllableCancellationRate++;
+        }
+      }
+
+      controllableCancellationRate = controllableCancellationRate / (currentStudent.cancellations.length + currentStudent.reservations.length);
+      uncontrollableCancellationRate = uncontrollableCancellationRate / (currentStudent.cancellations.length + currentStudent.reservations.length);
+
+      controllableCancellationRate *= 100;
+      uncontrollableCancellationRate *= 100;
+    }
+
+    //how often a lesson is marked as passed or failed
+    let failureCount = 0;
+    let passCount = 0;
+    let failureRate = 0;
+    function calculateFailures() {
+      failureCount = 0;
+      passCount = 0;
+      failureRate = 0;
+
+      for (let i = 0; i < currentStudent.reservations.length; i++) {
+        if (currentStudent.reservations[i].status == "FAILED") {
+          failureCount++;
+        } else if (currentStudent.reservations[i].status == "PASSED") {
+          passCount++;
+        }
+      }
+
+      failureRate = failureCount / (failureCount + passCount);
+      failureRate *= 100;
     }
     
 </script>
@@ -403,7 +488,7 @@
             <TableBodyRow>
                 <TableBodyCell>{student.name}</TableBodyCell>
                 <TableBodyCell>{student.id}</TableBodyCell>
-                <TableBodyCell><a href={"./?id=" + student.id}>Go To</a></TableBodyCell>
+                <TableBodyCell><Button on:click={() => {selectStudent(student.id)}}>Go To</Button></TableBodyCell>
             </TableBodyRow>
         {/each}
     </TableBody>
@@ -420,10 +505,10 @@
   <P>Total Reservations: {currentStudent.reservations.length + currentStudent.cancellations.length}</P>
   <P>Total Cancellations: {currentStudent.cancellations.length}</P>
   <P>Overall Cancellation Rate: </P>
-  <Progressbar progress={(currentStudent.cancellations.length / (currentStudent.reservations.length + currentStudent.cancellations.length)) * 100} />
+  <Progressbar size="h-3" labelInside progress={(currentStudent.cancellations.length / (currentStudent.reservations.length + currentStudent.cancellations.length)) * 100} />
   <P>Controllable Cancellation Rate: </P>
-  <Progressbar progress={0.0 * 100} />
-  <Heading tag='h4'>Cancellations: </Heading>
+  <Progressbar size="h-3" labelInside progress={controllableCancellationRate} />
+  <Heading tag='h4'>Cancellation List:</Heading>
   <Table hoverable={true} shadow>
     <TableHead>
       <TableHeadCell>Date</TableHeadCell>
@@ -440,6 +525,28 @@
         {/each}
     </TableBody>
   </Table>
+
+  <Hr></Hr>
+
+  <Heading tag='h3'>Lesson Completion Rate</Heading>
+  <P>The percentage of the time that a lesson is marked as satisfactory. This does not include cancellations.</P>
+  <Table hoverable={true} shadow>
+    <TableHead>
+      <TableHeadCell>Total Reservations</TableHeadCell>
+      <TableHeadCell>Total Passes</TableHeadCell>
+      <TableHeadCell>Total Times Marked "Repition Needed"</TableHeadCell>
+    </TableHead>
+    <TableBody>
+            <TableBodyRow>
+                <TableBodyCell>{currentStudent.reservations.length}</TableBodyCell>
+                <TableBodyCell>{passCount}</TableBodyCell>
+                <TableBodyCell>{failureCount}</TableBodyCell>
+            </TableBodyRow>
+    </TableBody>
+  </Table>
+
+  <P>Failure Rate:</P>
+  <Progressbar size="h-3" labelInside progress={failureRate} />
 </div>
 
 
