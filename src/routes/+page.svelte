@@ -519,13 +519,12 @@
 <Table hoverable={true} shadow>
     <TableHead>
       <TableHeadCell>Name / ID</TableHeadCell>
-      <TableHeadCell></TableHeadCell>
     </TableHead>
     <TableBody>
         {#each displayIdList as student}
             <TableBodyRow>
-                <TableBodyCell>{student.name} / {student.id}</TableBodyCell>
-                <TableBodyCell><Button rel="external" href={"/?id=" + student.id}>Go To</Button></TableBodyCell>
+                <TableBodyCell><div class="cell"><div>{student.name} / {student.id}</div><Button rel="external" href={"/?id=" + student.id}>Go To</Button></div></TableBodyCell>
+                
             </TableBodyRow>
         {/each}
     </TableBody>
@@ -605,6 +604,11 @@
 </div>
 
 <style>
+  .cell {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .studentContainer {
     display: flex;
     flex-direction: column;
