@@ -556,6 +556,10 @@
     <div class="mb-1 text-lg font-medium dark:text-white">Controllable Cancellation Rate</div>
     <Progressbar size="h-4" labelInside progress={controllableCancellationRate} />
   </div>
+  <div class="my-4">
+    <div class="mb-1 text-lg font-medium dark:text-white">Uncontrollable Cancellation Rate</div>
+    <Progressbar size="h-4" labelInside progress={uncontrollableCancellationRate} />
+  </div>
   
   <Heading tag='h4'>Cancellation List:</Heading>
   <Table hoverable={true} shadow>
