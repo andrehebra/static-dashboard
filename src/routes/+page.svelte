@@ -518,15 +518,13 @@
 <div class="padding"></div>
 <Table hoverable={true} shadow>
     <TableHead>
-      <TableHeadCell>Name</TableHeadCell>
-      <TableHeadCell>Id</TableHeadCell>
+      <TableHeadCell>Name / ID</TableHeadCell>
       <TableHeadCell></TableHeadCell>
     </TableHead>
     <TableBody>
         {#each displayIdList as student}
             <TableBodyRow>
-                <TableBodyCell>{student.name}</TableBodyCell>
-                <TableBodyCell>{student.id}</TableBodyCell>
+                <TableBodyCell>{student.name} / {student.id}</TableBodyCell>
                 <TableBodyCell><Button rel="external" href={"/?id=" + student.id}>Go To</Button></TableBodyCell>
             </TableBodyRow>
         {/each}
