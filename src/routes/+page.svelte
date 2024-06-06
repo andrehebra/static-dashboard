@@ -10,6 +10,56 @@
 
     import { browser } from '$app/environment';
 
+    //valid reasons for cancellations
+    let uncontrollableCancellationReasons = [
+        "Aircraft/Sim Unavailable",
+
+        "Client - sick",
+        "Client - family emergency",
+        "Client - fatigue",
+        "Client - injury",
+        "Client - no show/no-call",
+        "Client - technical issue (remote session)",
+        "Client - transportation issue",
+
+        "Instructor - instructor is sick",
+        "Instructor - personal scheduling conflict",
+
+        "Maintenance issue - before start",
+        "Maintenance issue - after start",
+        "Crew - unavailable",
+        "Flight Training Professionals",
+        "Other",
+        "Reschedule - booking is not needed",
+        "Reschedule - changing booking",
+        "Reschedule - client has completed the course",
+        "Reschedule - client is scheduled for progress check",
+        "Reschedule - scheduling error",
+        "Test booking - system operations check",
+        "Test booking - training",
+        "Weather - excessive crosswinds",
+        "Weather - excessive total winds",
+        "Weather - low cloud layers/ceilings",
+        "Weather - low visibilities",
+        "Weather - thunderstorms"
+    ];
+    let controllableCancellationReasons = [
+        "Client - client discontinued training",
+        "Client - forgot booking",
+        "Client - overslept",
+        "Client - personal scheduling conflict",
+        "Client - short notice cancellation",
+        "Client - unprepared for lesson",
+    ];
+
+    let controllableCancellationRate = 0;
+    let uncontrollableCancellationRate = 0;
+
+    //how often a lesson is marked as passed or failed
+    let failureCount = 0;
+    let passCount = 0;
+    let failureRate = 0;
+
 
     /*
     //export let data;
@@ -375,50 +425,9 @@
         selectStudent(url.searchParams.get('id'));
     }
 
-    //valid reasons for cancellations
-    let uncontrollableCancellationReasons = [
-        "Aircraft/Sim Unavailable",
+    
 
-        "Client - sick",
-        "Client - family emergency",
-        "Client - fatigue",
-        "Client - injury",
-        "Client - no show/no-call",
-        "Client - technical issue (remote session)",
-        "Client - transportation issue",
-
-        "Instructor - instructor is sick",
-        "Instructor - personal scheduling conflict",
-
-        "Maintenance issue - before start",
-        "Maintenance issue - after start",
-        "Crew - unavailable",
-        "Flight Training Professionals",
-        "Other",
-        "Reschedule - booking is not needed",
-        "Reschedule - changing booking",
-        "Reschedule - client has completed the course",
-        "Reschedule - client is scheduled for progress check",
-        "Reschedule - scheduling error",
-        "Test booking - system operations check",
-        "Test booking - training",
-        "Weather - excessive crosswinds",
-        "Weather - excessive total winds",
-        "Weather - low cloud layers/ceilings",
-        "Weather - low visibilities",
-        "Weather - thunderstorms"
-    ];
-    let controllableCancellationReasons = [
-        "Client - client discontinued training",
-        "Client - forgot booking",
-        "Client - overslept",
-        "Client - personal scheduling conflict",
-        "Client - short notice cancellation",
-        "Client - unprepared for lesson",
-    ];
-
-    let controllableCancellationRate = 0;
-    let uncontrollableCancellationRate = 0;
+    
     function calculateCancellationRate() {
       for (let i = 0; i < currentStudent.cancellations.length; i++) {
         if (uncontrollableCancellationReasons.includes(currentStudent.cancellations[i].title)) {
@@ -435,10 +444,7 @@
       uncontrollableCancellationRate *= 100;
     }
 
-    //how often a lesson is marked as passed or failed
-    let failureCount = 0;
-    let passCount = 0;
-    let failureRate = 0;
+    
     function calculateFailures() {
       failureCount = 0;
       passCount = 0;
@@ -488,7 +494,7 @@
             <TableBodyRow>
                 <TableBodyCell>{student.name}</TableBodyCell>
                 <TableBodyCell>{student.id}</TableBodyCell>
-                <TableBodyCell><Button on:click={() => {selectStudent(student.id)}}>Go To</Button></TableBodyCell>
+                <TableBodyCell><Button rel="external" href={"/?id=" + student.id}>Go To</Button></TableBodyCell>
             </TableBodyRow>
         {/each}
     </TableBody>
@@ -547,6 +553,8 @@
 
   <P>Failure Rate:</P>
   <Progressbar size="h-3" labelInside progress={failureRate} />
+
+  <Hr></Hr>
 </div>
 
 
