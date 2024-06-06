@@ -387,6 +387,21 @@
     import data from "./data.json";
     import dataInformation from "./dataInformation.json";
     import nameIdList from "./nameIdList.json";
+
+    nameIdList.sort((a, b) => {
+      // Convert names to lower case to ensure the sort is case-insensitive
+      let nameA = a.name.toLowerCase();
+      let nameB = b.name.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1; // a comes before b
+      }
+      if (nameA > nameB) {
+        return 1; // a comes after b
+      }
+      return 0; // names are equal
+    });
+
     let displayIdList = nameIdList.slice();
     let searchParam = "";
 
