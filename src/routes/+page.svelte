@@ -495,6 +495,7 @@
 {#if selected == false}
 
 <Heading tag='h2'>Select Student</Heading>
+<P>Data Last Updated: {dataInformation.dateCreated}</P>
 <Hr />
 
 <Search on:input={() => {calculateSearchResults()}} bind:value={searchParam}>
