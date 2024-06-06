@@ -527,10 +527,16 @@
 
   <P>Total Reservations: {currentStudent.reservations.length + currentStudent.cancellations.length}</P>
   <P>Total Cancellations: {currentStudent.cancellations.length}</P>
-  <P>Overall Cancellation Rate: </P>
-  <Progressbar size="h-3" labelInside progress={(currentStudent.cancellations.length / (currentStudent.reservations.length + currentStudent.cancellations.length)) * 100} />
-  <P>Controllable Cancellation Rate: </P>
-  <Progressbar size="h-3" labelInside progress={controllableCancellationRate} />
+
+  <div class="my-4">
+    <div class="mb-1 text-lg font-medium dark:text-white">Overall Cancellation Rate</div>
+    <Progressbar size="h-4" labelInside progress={(currentStudent.cancellations.length / (currentStudent.reservations.length + currentStudent.cancellations.length)) * 100} />
+  </div>
+  <div class="my-4">
+    <div class="mb-1 text-lg font-medium dark:text-white">Controllable Cancellation Rate</div>
+    <Progressbar size="h-4" labelInside progress={controllableCancellationRate} />
+  </div>
+  
   <Heading tag='h4'>Cancellation List:</Heading>
   <Table hoverable={true} shadow>
     <TableHead>
@@ -568,8 +574,10 @@
     </TableBody>
   </Table>
 
-  <P>Failure Rate:</P>
-  <Progressbar size="h-3" labelInside progress={failureRate} />
+  <div class="my-4">
+    <div class="mb-1 text-lg font-medium dark:text-white">Failure Rate</div>
+    <Progressbar size="h-4" labelInside progress={failureRate} />
+  </div>
 
   <Hr></Hr>
 </div>
