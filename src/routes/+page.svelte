@@ -19,7 +19,6 @@
         "Client - family emergency",
         "Client - fatigue",
         "Client - injury",
-        "Client - no show/no-call",
         "Client - technical issue (remote session)",
         "Client - transportation issue",
 
@@ -51,6 +50,7 @@
         "Client - personal scheduling conflict",
         "Client - short notice cancellation",
         "Client - unprepared for lesson",
+        "Client - no show/no-call",
     ];
 
     let controllableCancellationRate = 0;
