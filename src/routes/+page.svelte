@@ -3,6 +3,7 @@
     import { Label, Input, Button , P} from 'flowbite-svelte';
     import { Heading , Hr} from 'flowbite-svelte';
     import { Progressbar } from 'flowbite-svelte';
+    import { page } from "$app/stores";
     import { sineOut } from 'svelte/easing';
     import { DarkMode } from 'flowbite-svelte';
     import { Select } from 'flowbite-svelte';
@@ -54,6 +55,7 @@
         "Client - controllable fatigue",
     ];
 
+    //cancellation rates
     let controllableCancellationRate = 0;
     let uncontrollableCancellationRate = 0;
     let overallCancellationRate = 0;
@@ -72,6 +74,7 @@
     import dataInformation from "./dataInformation.json";
     import nameIdList from "./nameIdList.json";
 
+    //sort the name list so that it goes in the table in order
     nameIdList.sort((a, b) => {
       // Convert names to lower case to ensure the sort is case-insensitive
       let nameA = a.name.toLowerCase();
@@ -86,6 +89,7 @@
       return 0; // names are equal
     });
 
+    //variable that is actually displayed, allows for us to delete items without acutally deleting them from the real list
     let displayIdList = nameIdList.slice();
     let searchParam = "";
 
@@ -98,9 +102,7 @@
         }
     }
 
-    import { page } from "$app/stores";
-	import { getOperationAST } from 'graphql';
-
+    //logic to select a student which will be saved in the currentStudent object
     let selected = false;
     let studentIndex;
     let currentStudent = [];
@@ -231,7 +233,7 @@
 
             courseProgress[i].startDate = start;
             courseProgress[i].endDate = end;
-
+            //add the cancellations to the array
             for (let j = 0; j < currentStudent.cancellations.length; j++) {
                 let tempDate = new Date(currentStudent.cancellations[j].startsAt);
                 if (tempDate >= start && tempDate <= end) {
@@ -299,6 +301,7 @@
     <Heading tag='h3'>Course Progress  - {courseProgress[0].name}</Heading>
 
     <P>Start Date: {courseProgress[0].startDate.toLocaleDateString('en-Us')}</P>
+    <P>Average Reservations Per Week: {Math.round(courseProgress[0].reservationsPerWeek * 10) / 10}</P>
 
     <div class="my-4">
         <div class="mb-1 text-lg font-medium dark:text-white">Course Minimum Hours</div>
