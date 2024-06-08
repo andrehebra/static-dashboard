@@ -63,6 +63,10 @@
     let passCount = 0;
     let failureRate = 0;
 
+    //course progress
+    let courseProgress = [];
+    let programArray = [];
+
 
     /*
     //export let data;
@@ -446,6 +450,9 @@
 
       calculateCancellationRate();
       calculateFailures();
+      calcualteCourseProgress();
+
+      console.log(currentStudent);
     }
 
     //get URL parameters to see if a student has been selected based on URL
@@ -498,6 +505,74 @@
       failureRate = failureCount / (failureCount + passCount);
       failureRate *= 100;
     }
+
+    
+    function calcualteCourseProgress() {
+
+        //make a programarray and courseprogress array that tracks all of the user programs so that each reservation can be tied to a specific program
+        courseProgress.length = 0;
+        for (let i = 0; i < currentStudent.reservations.length; i++) {
+            if (programArray.includes(currentStudent.reservations[i].userProgram.name)) {
+                for (let j = 0; j < courseProgress.length; j++) {
+                    if (courseProgress[j].name == currentStudent.reservations[i].userProgram.name) {
+                        courseProgress[j].reservations.push(currentStudent.reservations[i]);
+                    }
+                }
+            } else {
+                courseProgress.push({
+                    name: currentStudent.reservations[i].userProgram.name,
+                    reservations: [currentStudent.reservations[i]],
+                    startDate: null,
+                    endDate: null,
+                    reservationsPerWeek: null,
+                    reservationCount: 0,
+                });
+                programArray.push(currentStudent.reservations[i].userProgram.name);
+            }
+        }
+
+        //calculate the start and end dates for each individual program and count the cancellations into the reservation count
+        for (let i = 0; i < courseProgress.length; i++) {
+            let start, end;
+            for (let j = 0; j < courseProgress[i].reservations.length; j++) {
+                courseProgress[i].reservationCount++;
+                if (start == null) {
+                    start = new Date(courseProgress[i].reservations[j].startsAt);
+                } else {
+                    if (new Date(courseProgress[i].reservations[j].startsAt) < start) {
+                        start = new Date(courseProgress[i].reservations[j].startsAt);
+                    }
+                }
+
+                if (end == null) {
+                    end = new Date(courseProgress[i].reservations[j].startsAt);
+                } else {
+                    if (new Date(courseProgress[i].reservations[j].startsAt) > end) {
+                        end = new Date(courseProgress[i].reservations[j].startsAt);
+                    }
+                }
+            }
+
+            courseProgress[i].startDate = start;
+            courseProgress[i].endDate = end;
+
+            for (let j = 0; j < currentStudent.cancellations.length; j++) {
+                let tempDate = new Date(currentStudent.cancellations[j].startsAt);
+                if (tempDate >= start && tempDate <= end) {
+                    courseProgress[i].reservationCount++;
+                }
+            }
+        }
+
+        //calculate the number of reservations per week
+        for (let i = 0; i < courseProgress.length; i++) {
+            let diff = Math.abs(courseProgress[i].endDate - courseProgress[i].startDate);
+            let days = diff / 1000 / 60 / 60 / 24;
+            courseProgress[i].reservationsPerWeek = courseProgress[i].reservationCount / (days / 7);
+        }
+
+        console.log(courseProgress);
+    }
     
 </script>
 
@@ -544,6 +619,17 @@
 <Hr />
 
 <div class="studentContainer">
+
+    <Heading tag='h3'>Course Progress  - {courseProgress[0].name}</Heading>
+
+    <P>Start Date: {courseProgress[0].startDate.toLocaleDateString('en-Us')}</P>
+
+    <div class="my-4">
+        <div class="mb-1 text-lg font-medium dark:text-white">Course Minimum Hours</div>
+        <Progressbar size="h-4" labelInside progress={courseProgress[0].reservationCount} />
+    </div>
+
+    <Hr></Hr>
   <Heading tag='h3'>Attendance Rate</Heading>
 
   <P>Total Reservations: {currentStudent.reservations.length + currentStudent.cancellations.length}</P>
