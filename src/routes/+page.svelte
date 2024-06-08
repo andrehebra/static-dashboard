@@ -593,7 +593,7 @@
 {#if selected == false}
 
 <Heading tag='h2'>Select Student</Heading>
-<P>Data Last Updated: {dataInformation.dateCreated}</P>
+<P>Data Last Updated: {new Date(dataInformation.dateCreated).toLocaleDateString('en-US')}</P>
 <Hr />
 
 <Search on:input={() => {calculateSearchResults()}} bind:value={searchParam}>
