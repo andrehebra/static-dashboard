@@ -412,9 +412,7 @@
     let searchParam = "";
 
     function calculateSearchResults() {
-      console.log("calcualte search results");
         displayIdList.length = 0;
-        console.log(nameIdList)
         for (let i = 0; i < nameIdList.length; i++) {
             if (nameIdList[i].name.toLowerCase().includes(searchParam.toLowerCase())) {
                 displayIdList.push(nameIdList[i]);
