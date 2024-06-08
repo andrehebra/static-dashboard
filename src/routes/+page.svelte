@@ -321,25 +321,27 @@
         //make an array that tracks whether or not each lesson has a pass or fail if available from the lesson List
         for (let i = 0; i < courseProgress.length; i++) {
             for (let j = 0; j < courseList.length; j++) {
-                if (courseProgress[i].name == courseList[j].name) {
+                if (courseProgress[i].name === courseList[j].name) {
                     courseProgress[i].passFailTracker = [];
                     for (let k = 0; k < courseList[j].lessons.length; k++) {
                         courseProgress[i].passFailTracker.push({
                             name: courseList[j].lessons[k],
                             passed: false,
-                        })
+                        });
                     }
                 }
             }
 
             for (let j = 0; j < courseProgress[i].reservations.length; j++) {
                 for (let k = 0; k < courseProgress[i].passFailTracker.length; k++) {
-                    if (courseProgress[i].reservations[j].status == "PASSED" && courseProgress[i].reservations[j].name == courseProgress[i].passFailTracker[k].name) {
-                        courseProgress[i].passFailTracker[j].passed = true;
+                    if (courseProgress[i].reservations[j].status == "PASSED" && (courseProgress[i].reservations[j].name.toLowerCase() == courseProgress[i].passFailTracker[k].name.toLowerCase() || courseProgress[i].reservations[j].name.toLowerCase() == (courseProgress[i].passFailTracker[k].name.toLowerCase() + " - repetition"))) {
+                        courseProgress[i].passFailTracker[k].passed = true;
+                        console.log(courseProgress[i].passFailTracker[k].name)
                     }
                 }
             }
         }
+
 
         console.log(courseProgress);
     }
