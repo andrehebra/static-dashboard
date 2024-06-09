@@ -9,6 +9,9 @@
     import { Select } from 'flowbite-svelte';
     import { Spinner } from 'flowbite-svelte';
     import { Search } from 'flowbite-svelte';
+    import { Indicator } from 'flowbite-svelte';
+    import { CheckCircleSolid } from 'flowbite-svelte-icons';
+    import { Popover } from 'flowbite-svelte';
 
     import { browser } from '$app/environment';
 
@@ -320,9 +323,10 @@
 
         //make an array that tracks whether or not each lesson has a pass or fail if available from the lesson List
         for (let i = 0; i < courseProgress.length; i++) {
+          courseProgress[i].passFailTracker = [];
             for (let j = 0; j < courseList.length; j++) {
                 if (courseProgress[i].name === courseList[j].name) {
-                    courseProgress[i].passFailTracker = [];
+                    
                     for (let k = 0; k < courseList[j].lessons.length; k++) {
                         courseProgress[i].passFailTracker.push({
                             name: courseList[j].lessons[k],
@@ -340,6 +344,19 @@
                     }
                 }
             }
+
+            let total = 0;
+            let passed = 0;
+            for (let j = 0; j < courseProgress[i].passFailTracker.length; j++) {
+                if (courseProgress[i].passFailTracker[j].passed == true) {
+                  passed++;
+                  total++;
+                } else {
+                  total++;
+                }
+            }
+
+            courseProgress[i].passedPercentage = (passed / total) * 100;
         }
 
 
@@ -391,18 +408,26 @@
 <Hr />
 
 <div class="studentContainer">
-
+  {#if courseProgress[0].name == "Private Pilot"}
     <Heading tag='h3'>Course Progress  - {courseProgress[0].name}</Heading>
 
     <P>Start Date: {courseProgress[0].startDate.toLocaleDateString('en-Us')}</P>
     <P>Average Reservations Per Week: {Math.round(courseProgress[0].reservationsPerWeek * 10) / 10}</P>
 
     <div class="my-4">
-        <div class="mb-1 text-lg font-medium dark:text-white">Course Minimum Hours</div>
-        <Progressbar size="h-4" labelInside progress={courseProgress[0].reservationCount} />
+        <div class="mb-1 text-lg font-medium dark:text-white">Course Percentage Completed</div>
+        <Progressbar size="h-4" labelInside progress={courseProgress[0].passedPercentage} />
     </div>
+    <div class="progressContainer">
+      {#each courseProgress[0].passFailTracker as lessonItem}
+        <div class={"progressSquare " + lessonItem.passed} id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}></div>
+        <Popover class="w-64 text-sm font-light " title="" triggeredBy={"#" + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>{lessonItem.name}</Popover>
+      {/each}
+    </div>
+      
 
     <Hr></Hr>
+    {/if}
   <Heading tag='h3'>Attendance Rate</Heading>
 
   <P>Total Reservations: {currentStudent.reservations.length + currentStudent.cancellations.length}</P>
@@ -475,6 +500,24 @@
 </div>
 
 <style>
+  .progressSquare {
+    width: 20px;
+    height: 20px;
+  }
+
+  .progressSquare.true {
+    background-color: green;
+  }
+
+  .progressSquare.false {
+    background-color: red;
+  }
+
+  .progressContainer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .cell {
     display: flex;
     justify-content: space-between;

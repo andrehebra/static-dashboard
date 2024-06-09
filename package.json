@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"flowbite-svelte-icons": "^1.6.1",
 		"graphql": "^16.8.1",
 		"graphql-tag": "^2.12.6",
 		"svelte-routing": "^2.12.0"
