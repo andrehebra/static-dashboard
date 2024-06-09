@@ -418,10 +418,21 @@
         <div class="mb-1 text-lg font-medium dark:text-white">Course Percentage Completed</div>
         <Progressbar size="h-4" labelInside progress={courseProgress[0].passedPercentage} />
     </div>
+    
     <div class="progressContainer">
       {#each courseProgress[0].passFailTracker as lessonItem}
-        <div class={"progressSquare " + lessonItem.passed} id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}></div>
-        <Popover class="w-64 text-sm font-light " title="" triggeredBy={"#" + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>{lessonItem.name}</Popover>
+        <div class="progressSquare" class:passed={lessonItem.passed} id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
+          <Popover class="w-64 text-sm font-light" title="" triggeredBy={"#" + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
+            <div class="lessonInfo">
+              <span>{lessonItem.name}</span>
+              {#if lessonItem.passed}
+                <span class="statusIndicator passed">Passed</span>
+              {:else}
+                <span class="statusIndicator failed">Not Passed</span>
+              {/if}
+            </div>
+          </Popover>
+        </div>
       {/each}
     </div>
       
@@ -505,12 +516,42 @@
     height: 20px;
   }
 
-  .progressSquare.true {
-    background-color: green;
+  .progressSquare {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border: 1px solid #ccc;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
-  .progressSquare.false {
-    background-color: red;
+  .progressSquare:hover {
+    background-color: #f0f0f0;
+  }
+
+  .passed {
+    background-color: #afffaf; /* Green background for passed lessons */
+  }
+
+  .failed {
+    background-color: #ff0000; /* Red background for failed lessons */
+  }
+
+  .lessonInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .statusIndicator {
+    margin-top: 5px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
   }
 
   .progressContainer {
