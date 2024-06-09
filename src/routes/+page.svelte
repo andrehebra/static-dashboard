@@ -533,7 +533,7 @@
   }
 
   .passed {
-    background-color: #afffaf; /* Green background for passed lessons */
+    background-color: rgb(239 86 47 / var(--tw-bg-opacity)); /* Green background for passed lessons */
   }
 
   .failed {
