@@ -276,6 +276,7 @@
                     reservationsPerWeek: null,
                     reservationCount: 0,
                     passFailTracker: null,
+                    expectedPercentage: 0,
                 });
                 programArray.push(currentStudent.reservations[i].userProgram.name);
             }
@@ -357,6 +358,8 @@
             }
 
             courseProgress[i].passedPercentage = (passed / total) * 100;
+
+            courseProgress[i].expectedPercentage = ((courseProgress[i].reservationCount * 0.6) / total) * 100;
         }
 
 
@@ -415,26 +418,32 @@
     <P>Average Reservations Per Week: {Math.round(courseProgress[0].reservationsPerWeek * 10) / 10}</P>
 
     <div class="my-4">
-        <div class="mb-1 text-lg font-medium dark:text-white">Course Percentage Completed</div>
-        <Progressbar size="h-4" labelInside progress={courseProgress[0].passedPercentage} />
+      <div class="mb-1 text-lg font-medium dark:text-white">Course Percentage Completed</div>
+      <Progressbar size="h-4" labelInside progress={courseProgress[0].passedPercentage} />
+    </div>
+    <div class="my-4">
+      <div class="mb-1 text-lg font-medium dark:text-white">Expected Course Progress</div>
+      <Progressbar size="h-4" labelInside progress={courseProgress[0].expectedPercentage} />
+    </div>
+    <div class="center">
+      <div class="progressContainer">
+        {#each courseProgress[0].passFailTracker as lessonItem}
+          <div class="progressSquare" class:passed={lessonItem.passed} id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
+            <Popover class="w-64 text-sm font-light" title="" triggeredBy={"#" + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
+              <div class="lessonInfo">
+                <span>{lessonItem.name}</span>
+                {#if lessonItem.passed}
+                  <span class="statusIndicator passed">Passed</span>
+                {:else}
+                  <span class="statusIndicator failed">Not Passed</span>
+                {/if}
+              </div>
+            </Popover>
+          </div>
+        {/each}
+      </div>
     </div>
     
-    <div class="progressContainer">
-      {#each courseProgress[0].passFailTracker as lessonItem}
-        <div class="progressSquare" class:passed={lessonItem.passed} id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
-          <Popover class="w-64 text-sm font-light" title="" triggeredBy={"#" + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}>
-            <div class="lessonInfo">
-              <span>{lessonItem.name}</span>
-              {#if lessonItem.passed}
-                <span class="statusIndicator passed">Passed</span>
-              {:else}
-                <span class="statusIndicator failed">Not Passed</span>
-              {/if}
-            </div>
-          </Popover>
-        </div>
-      {/each}
-    </div>
       
 
     <Hr></Hr>
@@ -511,6 +520,12 @@
 </div>
 
 <style>
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   .progressSquare {
     width: 20px;
     height: 20px;
