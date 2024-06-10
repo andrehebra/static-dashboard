@@ -467,7 +467,7 @@
     <TableBody>
         {#each currentStudent.cancellations as cancellation}
             <TableBodyRow>
-                <TableBodyCell>{cancellation.startsAt}</TableBodyCell>
+                <TableBodyCell>{new Date(cancellation.startsAt).toLocaleDateString('en-US')}</TableBodyCell>
                 <TableBodyCell>{cancellation.title}</TableBodyCell>
                 <TableBodyCell>{cancellation.comment}</TableBodyCell>
             </TableBodyRow>
