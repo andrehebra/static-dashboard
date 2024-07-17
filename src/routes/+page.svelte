@@ -5,20 +5,16 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell
+		TableHeadCell,
+		Button,
+		P,
+		Heading,
+		Hr,
+		Progressbar,
+		Search,
+		Popover
 	} from 'flowbite-svelte';
-	import { Label, Input, Button, P } from 'flowbite-svelte';
-	import { Heading, Hr } from 'flowbite-svelte';
-	import { Progressbar } from 'flowbite-svelte';
 	import { page } from '$app/stores';
-	import { sineOut } from 'svelte/easing';
-	import { DarkMode } from 'flowbite-svelte';
-	import { Select } from 'flowbite-svelte';
-	import { Spinner } from 'flowbite-svelte';
-	import { Search } from 'flowbite-svelte';
-	import { Indicator } from 'flowbite-svelte';
-	import { CheckCircleSolid } from 'flowbite-svelte-icons';
-	import { Popover } from 'flowbite-svelte';
 
 	import { browser } from '$app/environment';
 
@@ -71,89 +67,89 @@
 			if (daysPerWeek < 1) {
 				numDays = -180 * daysPerWeek + 340;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 2) {
 				numDays = -76 * daysPerWeek + 236;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 3) {
 				numDays = -34 * daysPerWeek + 152;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 4) {
 				numDays = -22 * daysPerWeek + 116;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else {
 				numDays = -7 * daysPerWeek + 56;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			}
 		} else if (progressCheck == 2) {
 			if (daysPerWeek < 1) {
 				numDays = -370 * daysPerWeek + 685;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 2) {
 				numDays = -155 * daysPerWeek + 470;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 3) {
 				numDays = -60 * daysPerWeek + 280;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 4) {
 				numDays = -35 * daysPerWeek + 205;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else {
 				numDays = -15 * daysPerWeek + 125;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			}
 		} else if (progressCheck == 3) {
 			if (daysPerWeek < 1) {
 				numDays = -610 * daysPerWeek + 1080;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 2) {
 				numDays = -220 * daysPerWeek + 690;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 3) {
 				numDays = -105 * daysPerWeek + 460;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 4) {
 				numDays = -45 * daysPerWeek + 280;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else {
 				numDays = -22 * daysPerWeek + 188;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			}
 		} else if (progressCheck == 4) {
 			if (daysPerWeek < 1) {
 				numDays = -780 * daysPerWeek + 1340;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 2) {
 				numDays = -260 * daysPerWeek + 820;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 3) {
 				numDays = -120 * daysPerWeek + 540;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else if (daysPerWeek < 4) {
 				numDays = -50 * daysPerWeek + 330;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			} else {
 				numDays = -30 * daysPerWeek + 250;
 				startDate = new Date(startDate.getTime() + numDays * 1000 * 60 * 60 * 24);
-				return startDate
+				return startDate;
 			}
 		} else {
 			return 'error';
@@ -162,12 +158,12 @@
 
 	function calculatePrivateExpectedCoursePercentageCompleted(daysPerWeek, startDate) {
 		let expectedEndDate = new Date(calculatePrivateProgressCheckDates(daysPerWeek, 4, startDate));
-    console.log(daysPerWeek);
+		console.log(daysPerWeek);
 		let today = new Date();
 
 		let q = Math.abs(today - startDate);
 		let d = Math.abs(expectedEndDate - startDate);
-    return Math.round((q / d) * 100);
+		return Math.round((q / d) * 100);
 	}
 
 	let courseList = [
@@ -583,7 +579,14 @@
 				</div>
 				<div class="my-4">
 					<div class="mb-1 text-lg font-medium dark:text-white">Expected Course Progress</div>
-					<Progressbar size="h-4" labelInside progress={calculatePrivateExpectedCoursePercentageCompleted(courseProgress[0].reservationsPerWeek, courseProgress[0].startDate)} />
+					<Progressbar
+						size="h-4"
+						labelInside
+						progress={calculatePrivateExpectedCoursePercentageCompleted(
+							courseProgress[0].reservationsPerWeek,
+							courseProgress[0].startDate
+						)}
+					/>
 				</div>
 				<div class="center">
 					<div class="progressContainer">
