@@ -158,7 +158,6 @@
 
 	function calculatePrivateExpectedCoursePercentageCompleted(daysPerWeek, startDate) {
 		let expectedEndDate = new Date(calculatePrivateProgressCheckDates(daysPerWeek, 4, startDate));
-		console.log(daysPerWeek);
 		let today = new Date();
 
 		let q = Math.abs(today - startDate);
@@ -308,15 +307,12 @@
 		calculateCancellationRate();
 		calculateFailures();
 		calcualteCourseProgress();
-
-		console.log(currentStudent);
 	}
 
 	//get URL parameters to see if a student has been selected based on URL
 	// append URL like this: /?id=97651
 	const url = $page.url;
 	if (url.searchParams.get('id') != null) {
-		console.log(url.searchParams);
 		selectStudent(url.searchParams.get('id'));
 	}
 
@@ -448,7 +444,6 @@
 								courseProgress[i].passFailTracker[k].name.toLowerCase() + ' - repetition')
 					) {
 						courseProgress[i].passFailTracker[k].passed = true;
-						console.log(courseProgress[i].passFailTracker[k].name);
 					}
 				}
 			}
@@ -470,7 +465,6 @@
 				((courseProgress[i].reservationCount * 0.6) / total) * 100;
 		}
 
-		console.log(courseProgress);
 	}
 </script>
 
