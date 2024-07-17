@@ -162,7 +162,11 @@
 
 		let q = Math.abs(today - startDate);
 		let d = Math.abs(expectedEndDate - startDate);
-		return Math.round((q / d) * 100);
+		if (Math.round((q / d) * 100) > 100) {
+			return 100;
+		} else {
+			return Math.round((q / d) * 100);
+		}
 	}
 
 	let courseList = [
@@ -738,7 +742,7 @@
 	.progressContainer {
 		display: flex;
 		flex-wrap: wrap;
-    justify-content: center;
+		justify-content: center;
 	}
 
 	.cell {
