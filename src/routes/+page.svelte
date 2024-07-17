@@ -464,7 +464,6 @@
 			courseProgress[i].expectedPercentage =
 				((courseProgress[i].reservationCount * 0.6) / total) * 100;
 		}
-
 	}
 </script>
 
@@ -739,6 +738,7 @@
 	.progressContainer {
 		display: flex;
 		flex-wrap: wrap;
+    justify-content: center;
 	}
 
 	.cell {
