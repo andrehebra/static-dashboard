@@ -311,6 +311,8 @@
 		calculateCancellationRate();
 		calculateFailures();
 		calcualteCourseProgress();
+
+		console.log(currentStudent);
 	}
 
 	//get URL parameters to see if a student has been selected based on URL
