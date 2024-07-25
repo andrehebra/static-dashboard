@@ -252,9 +252,9 @@
 	let programArray = [];
 
 	//import data files
-	import data from './data.json';
-	import dataInformation from './dataInformation.json';
-	import nameIdList from './nameIdList.json';
+	import data from '../lib/data.json';
+	import dataInformation from '../lib/dataInformation.json';
+	import nameIdList from '../lib/nameIdList.json';
 
 	//sort the name list so that it goes in the table in order
 	nameIdList.sort((a, b) => {
@@ -486,7 +486,7 @@
 
 	{#if selected == false}
 		<Heading tag="h2">Select Student</Heading>
-		<P>Data Last Updated: {new Date(dataInformation.dateCreated).toLocaleDateString('en-US')}</P>
+		<P>Data Last Updated: {new Date(dataInformation.dateCreated).toLocaleDateString('en-US')} {new Date(dataInformation.dateCreated).toLocaleTimeString('en-US')}</P>
 		<Hr />
 
 		<Search
