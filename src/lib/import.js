@@ -1,5 +1,9 @@
-let apiKey = require("./apiKey.json")
-apiKey = apiKey.apiKey
+//let apiKey = require("./apiKey.json");
+//apiKey = apiKey.apiKey;
+import apiObject from "./apiKey.json" assert {type: "json"};
+let apiKey = apiObject.apiKey;
+
+console.log(apiKey)
 
 const query = `query Query($all: Boolean, $to: DateTime, $after: String) {
     bookings(all: $all, to: $to, after: $after) {
@@ -247,7 +251,8 @@ const load = async () => {
 }
 
 
-const fs = require('fs');
+//const fs = require('fs');
+import fs from 'fs';
 function writeObjectToJsonFile(obj, filename) {
     const jsonString = JSON.stringify(obj, null, 2); // Convert the object to a JSON string with 2-space indentation
     fs.writeFile(filename, jsonString, (err) => {
