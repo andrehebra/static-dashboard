@@ -16,5 +16,5 @@ while ($true) {
   git push
 
   # Wait for an hour before running again (3600 seconds)
-  Start-Sleep -Seconds 3600
+  Start-Sleep -Seconds 28800
 }
