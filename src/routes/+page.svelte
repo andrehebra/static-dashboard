@@ -318,7 +318,7 @@
 		calculateFailures();
 		calcualteCourseProgress();
 
-		console.log(currentStudent);
+		//console.log(currentStudent);
 	}
 
 	//get URL parameters to see if a student has been selected based on URL
@@ -476,6 +476,8 @@
 			courseProgress[i].expectedPercentage =
 				((courseProgress[i].reservationCount * 0.6) / total) * 100;
 		}
+
+		//courseProgress = courseProgress
 	}
 </script>
 
@@ -647,12 +649,12 @@
 							<div
 								class="progressSquare"
 								class:passed={lessonItem.passed}
-								id={lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}
+								id={lessonItem.name.replace(/[^a-zA-Z1-9]/g, '').toLowerCase()}
 							>
 								<Popover
 									class="w-64 text-sm font-light"
 									title=""
-									triggeredBy={'#' + lessonItem.name.replace(/[^a-zA-Z]/g, '').toLowerCase()}
+									triggeredBy={'#' + lessonItem.name.replace(/[^a-zA-Z1-9]/g, '').toLowerCase()}
 								>
 									<div class="lessonInfo">
 										<span>{lessonItem.name}</span>
