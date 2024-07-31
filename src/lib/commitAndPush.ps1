@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Navigate to the directory where your project is located
+cd \Users\DispatchFTPros\clientDashboard\static-dashboard\src\lib
 
 while ($true) {
   # Run the Node.js script to generate the files
