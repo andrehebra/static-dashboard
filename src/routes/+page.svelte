@@ -156,8 +156,14 @@
 		}
 	}
 
-	function calculatePrivateExpectedCoursePercentageCompleted(daysPerWeek, startDate) {
-		let expectedEndDate = new Date(calculatePrivateProgressCheckDates(daysPerWeek, 4, startDate));
+	function calculatePrivateExpectedCoursePercentageCompleted(
+		daysPerWeek,
+		startDate,
+		progressCheck
+	) {
+		let expectedEndDate = new Date(
+			calculatePrivateProgressCheckDates(daysPerWeek, progressCheck, startDate)
+		);
 		let today = new Date();
 
 		let q = Math.abs(today - startDate);
@@ -486,7 +492,10 @@
 
 	{#if selected == false}
 		<Heading tag="h2">Select Student</Heading>
-		<P>Data Last Updated: {new Date(dataInformation.dateCreated).toLocaleDateString('en-US')} {new Date(dataInformation.dateCreated).toLocaleTimeString('en-US')}</P>
+		<P
+			>Data Last Updated: {new Date(dataInformation.dateCreated).toLocaleDateString('en-US')}
+			{new Date(dataInformation.dateCreated).toLocaleTimeString('en-US')}</P
+		>
 		<Hr />
 
 		<Search
@@ -529,44 +538,88 @@
 				<Table hoverable={true} shadow>
 					<TableHead>
 						<TableHeadCell>Progress Check</TableHeadCell>
-						<TableHeadCell>Expected Date</TableHeadCell>
+						<TableHeadCell>Expected Progress</TableHeadCell>
 					</TableHead>
 					<TableBody>
 						<TableBodyRow>
-							<TableBodyCell>Progress Check 1</TableBodyCell>
 							<TableBodyCell
-								>{calculatePrivateProgressCheckDates(
+								>Progress Check 1 - {calculatePrivateProgressCheckDates(
 									courseProgress[0].reservationsPerWeek,
 									1,
 									courseProgress[0].startDate
 								).toLocaleDateString('en-US')}</TableBodyCell
 							>
-						</TableBodyRow><TableBodyRow>
-							<TableBodyCell>Progress Check 2</TableBodyCell>
+
 							<TableBodyCell
-								>{calculatePrivateProgressCheckDates(
+								><Progressbar
+									size="h-4"
+									labelInside
+									progress={calculatePrivateExpectedCoursePercentageCompleted(
+										courseProgress[0].reservationsPerWeek,
+										courseProgress[0].startDate,
+										1
+									)}
+								/></TableBodyCell
+							>
+						</TableBodyRow><TableBodyRow>
+							<TableBodyCell
+								>Progress Check 2 - {calculatePrivateProgressCheckDates(
 									courseProgress[0].reservationsPerWeek,
 									2,
 									courseProgress[0].startDate
 								).toLocaleDateString('en-US')}</TableBodyCell
 							>
-						</TableBodyRow><TableBodyRow>
-							<TableBodyCell>Progress Check 3</TableBodyCell>
+
 							<TableBodyCell
-								>{calculatePrivateProgressCheckDates(
+								><Progressbar
+									size="h-4"
+									labelInside
+									progress={calculatePrivateExpectedCoursePercentageCompleted(
+										courseProgress[0].reservationsPerWeek,
+										courseProgress[0].startDate,
+										2
+									)}
+								/></TableBodyCell
+							>
+						</TableBodyRow><TableBodyRow>
+							<TableBodyCell
+								>Progress Check 3 - {calculatePrivateProgressCheckDates(
 									courseProgress[0].reservationsPerWeek,
 									3,
 									courseProgress[0].startDate
 								).toLocaleDateString('en-US')}</TableBodyCell
 							>
-						</TableBodyRow><TableBodyRow>
-							<TableBodyCell>Progress Check 4</TableBodyCell>
+
 							<TableBodyCell
-								>{calculatePrivateProgressCheckDates(
+								><Progressbar
+									size="h-4"
+									labelInside
+									progress={calculatePrivateExpectedCoursePercentageCompleted(
+										courseProgress[0].reservationsPerWeek,
+										courseProgress[0].startDate,
+										3
+									)}
+								/></TableBodyCell
+							>
+						</TableBodyRow><TableBodyRow>
+							<TableBodyCell
+								>Progress Check 4 - {calculatePrivateProgressCheckDates(
 									courseProgress[0].reservationsPerWeek,
 									4,
 									courseProgress[0].startDate
 								).toLocaleDateString('en-US')}</TableBodyCell
+							>
+
+							<TableBodyCell
+								><Progressbar
+									size="h-4"
+									labelInside
+									progress={calculatePrivateExpectedCoursePercentageCompleted(
+										courseProgress[0].reservationsPerWeek,
+										courseProgress[0].startDate,
+										4
+									)}
+								/></TableBodyCell
 							>
 						</TableBodyRow>
 					</TableBody>
@@ -583,7 +636,8 @@
 						labelInside
 						progress={calculatePrivateExpectedCoursePercentageCompleted(
 							courseProgress[0].reservationsPerWeek,
-							courseProgress[0].startDate
+							courseProgress[0].startDate,
+							4
 						)}
 					/>
 				</div>
