@@ -204,9 +204,9 @@
 				'SCENARIO 2: HANDLING THE UNEXPECTED (AATD)',
 				'SCENARIO 2: HANDLING THE UNEXPECTED',
 				'SCENARIO 3: GETTING READY FOR SOLO FLIGHT',
-				'PRE-SOLO BRIEFING AND PRE-SOLO KNOWLEDGE TEST',
-				'SCENARIO 1: PROGRESS CHECK (GROUND)',
-				'SCENARIO 1: PROGRESS CHECK (FLIGHT)',
+				'PRE- SOLO BRIEFING AND PRE-SOLO KNOWLEDGE TEST',
+				'SCENARIO 1: PROGRESS CHECK ( GROUND)',
+				'SCENARIO 1: PROGRESS CHECK ( FLIGHT)',
 				'SCENARIO 2: YOUR FIRST SOLO FLIGHT',
 				'SCENARIO 3: YOUR SECOND SOLO FLIGHT',
 				'SCENARIO 1: USING SHORT- OR SOFT-FIELD TECHNIQUES (Ground Trainer)',
@@ -217,15 +217,15 @@
 				'SCENARIO 2: USING ELECTRONIC NAVIGATION / INSTRUMENT (FLIGHT)',
 				'SCENARIO 3: SOLO FLIGHT BEYOND THE PATTERN',
 				'SCENARIO 4: SOLO PRACTICE',
-				'SCENARIO 1: GOING CROSS-COUNTRY (AATD or Ground Trainer)',
-				'SCENARIO 1: GOING CROSS-COUNTRY',
+				'SCENARIO 1: GOING CROSS- COUNTRY (AATD or Ground Trainer)',
+				'SCENARIO 1: GOING CROSS- COUNTRY',
 				'SCENARIO 2: POLISHING YOUR CROSS-COUNTRY SKILLS (Ground Trainer)',
 				'SCENARIO 2: POLISHING YOUR CROSS-COUNTRY SKILLS',
 				'SCENARIO 3: FLYING CROSS-COUNTRY AT NIGHT',
-				'PRE-SOLO CROSS COUNTRY BRIEFING (GROUND)',
+				'PRE- SOLO CROSS COUNTRY BRIEFING ( GROUND)',
 				'SCENARIO 4: PROGRESS CHECK (GROUND)',
-				'SCENARIO 4: PROGRESS CHECK (FLIGHT)',
-				'SCENARIO 5: YOUR FIRST SOLO CROSS-COUNTRY',
+				'SCENARIO 4: PROGRESS CHECK ( FLIGHT)',
+				'SCENARIO 5: YOUR FIRST SOLO CROSS- COUNTRY',
 				'SCENARIO 1: FLYING AT NIGHT',
 				'SCENARIO 1: POLISHING EMERGENCY INSTRUMENT SKILLS',
 				'SCENARIO 2: OPTIONAL SOLO CROSS COUNTRY AND/OR YOUR SKILLS AND THE PRIVATE PILOT ACS',
@@ -323,7 +323,7 @@
 		calculateFailures();
 		calcualteCourseProgress();
 
-		//console.log(currentStudent);
+		console.log(currentStudent);
 	}
 
 	//get URL parameters to see if a student has been selected based on URL
@@ -367,10 +367,23 @@
 		return comment;
 	}
 
-	function timeBetweenDates(date1, date2) {
+	function timeBetweenDates(date1, date2, progCheck) {
 		// Convert the input to Date objects if they are not already
 		let startDate = new Date(date2);
 		let endDate = new Date(date1);
+
+		if (progCheck == 1 && courseProgress[0].passFailTracker[13].passed && courseProgress[0].passFailTracker[14].passed) {
+			return {text: "Progress Check Passed", negative: false };
+		}
+		if (progCheck == 2 && courseProgress[0].passFailTracker[26].passed && courseProgress[0].passFailTracker[27].passed) {
+			return {text: "Progress Check Passed", negative: false };
+		}
+		if (progCheck == 3 && courseProgress[0].passFailTracker[44].passed && courseProgress[0].passFailTracker[45].passed) {
+			return {text: "Progress Check Passed", negative: false };
+		}
+		if (progCheck == 4 && courseProgress[0].passFailTracker[57].passed && courseProgress[0].passFailTracker[58].passed) {
+			return {text: "Progress Check Passed", negative: false };
+		}
 
 		let returnString;
 		let isNegative;
@@ -543,6 +556,7 @@
 		}
 
 		//courseProgress = courseProgress
+		console.log(courseProgress[0]);
 	}
 </script>
 
@@ -625,7 +639,7 @@
 										1,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),1
 								).negative == true}
 								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
 									calculatePrivateProgressCheckDates(
@@ -633,7 +647,7 @@
 										1,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),1
 								).text}</P>
 								{:else}
 								<P>{timeBetweenDates(
@@ -642,7 +656,7 @@
 										1,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),1
 								).text}</P>
 								{/if}</TableBodyCell
 							>
@@ -662,7 +676,7 @@
 										2,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),2
 								).negative == true}
 								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
 									calculatePrivateProgressCheckDates(
@@ -670,7 +684,7 @@
 										2,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),2
 								).text}</P>
 								{:else}
 								<P>{timeBetweenDates(
@@ -679,7 +693,7 @@
 										2,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),2
 								).text}</P>
 								{/if}</TableBodyCell
 							>
@@ -699,7 +713,7 @@
 										3,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),3
 								).negative == true}
 								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
 									calculatePrivateProgressCheckDates(
@@ -707,7 +721,7 @@
 										3,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),3
 								).text}</P>
 								{:else}
 								<P>{timeBetweenDates(
@@ -716,7 +730,7 @@
 										3,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),3
 								).text}</P>
 								{/if}</TableBodyCell
 							>
@@ -736,7 +750,7 @@
 										4,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),4
 								).negative == true}
 								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
 									calculatePrivateProgressCheckDates(
@@ -744,7 +758,7 @@
 										4,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),4
 								).text}</P>
 								{:else}
 								<P>{timeBetweenDates(
@@ -753,7 +767,7 @@
 										4,
 										courseProgress[0].startDate
 									),
-									new Date()
+									new Date(),4
 								).text}</P>
 								{/if}</TableBodyCell
 							>
