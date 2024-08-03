@@ -358,6 +358,15 @@
 		uncontrollableAttendanceRate = 100 - uncontrollableCancellationRate;
 		overallAttendanceRate = 100 - overallCancellationRate;
 	}
+
+	function parseCancellationComment(comment) {
+		if (comment.length <= 1) {
+			return "No comment provided";
+		}
+
+		return comment;
+	}
+
 	function timeBetweenDates(date1, date2) {
 		// Convert the input to Date objects if they are not already
 		let startDate = new Date(date1);
@@ -753,7 +762,7 @@
 								>{new Date(cancellation.startsAt).toLocaleDateString('en-US')}</TableBodyCell
 							>
 							<TableBodyCell>{cancellation.title}</TableBodyCell>
-							<TableBodyCell>{cancellation.comment}</TableBodyCell>
+							<TableBodyCell>{parseCancellationComment(cancellation.comment)}</TableBodyCell>
 						</TableBodyRow>
 					{/each}
 				</TableBody>
