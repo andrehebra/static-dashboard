@@ -358,6 +358,47 @@
 		uncontrollableAttendanceRate = 100 - uncontrollableCancellationRate;
 		overallAttendanceRate = 100 - overallCancellationRate;
 	}
+	function timeBetweenDates(date1, date2) {
+		// Convert the input to Date objects if they are not already
+		let startDate = new Date(date1);
+		let endDate = new Date(date2);
+
+		// Ensure startDate is before endDate
+		if (startDate > endDate) {
+			[startDate, endDate] = [endDate, startDate];
+		}
+
+		// Calculate the difference in total months
+		let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+		months -= startDate.getMonth();
+		months += endDate.getMonth();
+
+		// Adjust if the end day is earlier in the month than the start day
+		let days = endDate.getDate() - startDate.getDate();
+		if (days < 0) {
+			// If the days are negative, borrow a month
+			months--;
+			// Get the number of days in the previous month
+			const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+			days += prevMonth;
+		}
+
+		// Build the result string
+		let result = '';
+		if (months > 0 && days > 0) {
+			result += `${months} month${months > 1 ? 's' : ''}`;
+			result += `, ${days} day${days > 1 ? 's' : ''}`;
+		} else {
+			if (months > 0) {
+				result += `${months} month${months > 1 ? 's' : ''} `;
+			}
+			if (days > 0) {
+				result += `${days} day${days > 1 ? 's' : ''}`;
+			}
+		}
+
+		return result.trim() || '0 days';
+	}
 
 	function calculateFailures() {
 		failureCount = 0;
@@ -549,7 +590,7 @@
 				<Table hoverable={true} shadow>
 					<TableHead>
 						<TableHeadCell>Progress Check</TableHeadCell>
-						<TableHeadCell>Expected Progress</TableHeadCell>
+						<TableHeadCell>Expected Days Until Progress Check Remaining</TableHeadCell>
 					</TableHead>
 					<TableBody>
 						<TableBodyRow>
@@ -562,15 +603,14 @@
 							>
 
 							<TableBodyCell
-								><Progressbar
-									size="h-4"
-									labelInside
-									progress={calculatePrivateExpectedCoursePercentageCompleted(
+								>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
-										courseProgress[0].startDate,
-										1
-									)}
-								/></TableBodyCell
+										1,
+										courseProgress[0].startDate
+									),
+									new Date()
+								)}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -582,15 +622,14 @@
 							>
 
 							<TableBodyCell
-								><Progressbar
-									size="h-4"
-									labelInside
-									progress={calculatePrivateExpectedCoursePercentageCompleted(
+								>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
-										courseProgress[0].startDate,
-										2
-									)}
-								/></TableBodyCell
+										2,
+										courseProgress[0].startDate
+									),
+									new Date()
+								)}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -602,15 +641,14 @@
 							>
 
 							<TableBodyCell
-								><Progressbar
-									size="h-4"
-									labelInside
-									progress={calculatePrivateExpectedCoursePercentageCompleted(
+								>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
-										courseProgress[0].startDate,
-										3
-									)}
-								/></TableBodyCell
+										3,
+										courseProgress[0].startDate
+									),
+									new Date()
+								)}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -622,15 +660,14 @@
 							>
 
 							<TableBodyCell
-								><Progressbar
-									size="h-4"
-									labelInside
-									progress={calculatePrivateExpectedCoursePercentageCompleted(
+								>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
-										courseProgress[0].startDate,
-										4
-									)}
-								/></TableBodyCell
+										4,
+										courseProgress[0].startDate
+									),
+									new Date()
+								)}</TableBodyCell
 							>
 						</TableBodyRow>
 					</TableBody>
