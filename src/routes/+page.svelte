@@ -248,6 +248,11 @@
 	let uncontrollableCancellationRate = 0;
 	let overallCancellationRate = 0;
 
+	//attendance rates
+	let controllableAttendanceRate = 0;
+	let uncontrollableAttendanceRate = 0;
+	let overallAttendanceRate = 0;
+
 	//how often a lesson is marked as passed or failed
 	let failureCount = 0;
 	let passCount = 0;
@@ -348,6 +353,10 @@
 		controllableCancellationRate *= 100;
 		uncontrollableCancellationRate *= 100;
 		overallCancellationRate *= 100;
+
+		controllableAttendanceRate = 100 - controllableCancellationRate;
+		uncontrollableAttendanceRate = 100 - uncontrollableCancellationRate;
+		overallAttendanceRate = 100 - overallCancellationRate;
 	}
 
 	function calculateFailures() {
@@ -681,16 +690,16 @@
 			<P>Total Cancellations: {currentStudent.cancellations.length}</P>
 
 			<div class="my-4">
-				<div class="mb-1 text-lg font-medium dark:text-white">Overall Cancellation Rate</div>
-				<Progressbar size="h-4" labelInside progress={overallCancellationRate} />
+				<div class="mb-1 text-lg font-medium dark:text-white">Overall Attendance Rate</div>
+				<Progressbar size="h-4" labelInside progress={overallAttendanceRate} />
 			</div>
 			<div class="my-4">
-				<div class="mb-1 text-lg font-medium dark:text-white">Controllable Cancellation Rate</div>
-				<Progressbar size="h-4" labelInside progress={controllableCancellationRate} />
+				<div class="mb-1 text-lg font-medium dark:text-white">Controllable Attendance Rate</div>
+				<Progressbar size="h-4" labelInside progress={controllableAttendanceRate} />
 			</div>
 			<div class="my-4">
-				<div class="mb-1 text-lg font-medium dark:text-white">Uncontrollable Cancellation Rate</div>
-				<Progressbar size="h-4" labelInside progress={uncontrollableCancellationRate} />
+				<div class="mb-1 text-lg font-medium dark:text-white">Uncontrollable Attendance Rate</div>
+				<Progressbar size="h-4" labelInside progress={uncontrollableAttendanceRate} />
 			</div>
 
 			<Heading tag="h4">Cancellation List:</Heading>
