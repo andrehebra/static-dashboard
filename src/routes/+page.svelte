@@ -361,7 +361,7 @@
 
 	function parseCancellationComment(comment) {
 		if (comment.length <= 1) {
-			return "No comment provided";
+			return 'No comment provided';
 		}
 
 		return comment;
@@ -369,44 +369,50 @@
 
 	function timeBetweenDates(date1, date2) {
 		// Convert the input to Date objects if they are not already
-		let startDate = new Date(date1);
-		let endDate = new Date(date2);
+		let startDate = new Date(date2);
+		let endDate = new Date(date1);
 
-		// Ensure startDate is before endDate
-		if (startDate > endDate) {
-			[startDate, endDate] = [endDate, startDate];
-		}
+		let returnString;
+		let isNegative;
 
-		// Calculate the difference in total months
-		let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
-		months -= startDate.getMonth();
-		months += endDate.getMonth();
+		if (startDate < endDate) {
+			// Calculate the difference in total months
+			let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+			months -= startDate.getMonth();
+			months += endDate.getMonth();
 
-		// Adjust if the end day is earlier in the month than the start day
-		let days = endDate.getDate() - startDate.getDate();
-		if (days < 0) {
-			// If the days are negative, borrow a month
-			months--;
-			// Get the number of days in the previous month
-			const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
-			days += prevMonth;
-		}
+			// Adjust if the end day is earlier in the month than the start day
+			let days = endDate.getDate() - startDate.getDate();
+			if (days < 0) {
+				// If the days are negative, borrow a month
+				months--;
+				// Get the number of days in the previous month
+				const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+				days += prevMonth;
+			}
 
-		// Build the result string
-		let result = '';
-		if (months > 0 && days > 0) {
-			result += `${months} month${months > 1 ? 's' : ''}`;
-			result += `, ${days} day${days > 1 ? 's' : ''}`;
+			// Build the result string
+			let result = '';
+			if (months > 0 && days > 0) {
+				result += `${months} month${months > 1 ? 's' : ''}`;
+				result += `, ${days} day${days > 1 ? 's' : ''}`;
+			} else {
+				if (months > 0) {
+					result += `${months} month${months > 1 ? 's' : ''} `;
+				}
+				if (days > 0) {
+					result += `${days} day${days > 1 ? 's' : ''}`;
+				}
+			}
+
+			returnString = result.trim() || '0 days';
+			isNegative = false;
 		} else {
-			if (months > 0) {
-				result += `${months} month${months > 1 ? 's' : ''} `;
-			}
-			if (days > 0) {
-				result += `${days} day${days > 1 ? 's' : ''}`;
-			}
+			returnString = "Overdue by " + Math.abs(Math.floor((endDate.getTime() - startDate.getTime()) / 1000 / 60 /60 /24)) + " days";
+			isNegative = true;
 		}
 
-		return result.trim() || '0 days';
+		return {text: returnString, negative: isNegative };
 	}
 
 	function calculateFailures() {
@@ -612,14 +618,33 @@
 							>
 
 							<TableBodyCell
-								>{timeBetweenDates(
+								>
+								{#if timeBetweenDates(
 									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
 										1,
 										courseProgress[0].startDate
 									),
 									new Date()
-								)}</TableBodyCell
+								).negative == true}
+								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										1,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{:else}
+								<P>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										1,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{/if}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -631,14 +656,32 @@
 							>
 
 							<TableBodyCell
-								>{timeBetweenDates(
+								>{#if timeBetweenDates(
 									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
 										2,
 										courseProgress[0].startDate
 									),
 									new Date()
-								)}</TableBodyCell
+								).negative == true}
+								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										2,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{:else}
+								<P>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										2,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{/if}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -650,14 +693,32 @@
 							>
 
 							<TableBodyCell
-								>{timeBetweenDates(
+								>{#if timeBetweenDates(
 									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
 										3,
 										courseProgress[0].startDate
 									),
 									new Date()
-								)}</TableBodyCell
+								).negative == true}
+								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										3,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{:else}
+								<P>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										3,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{/if}</TableBodyCell
 							>
 						</TableBodyRow><TableBodyRow>
 							<TableBodyCell
@@ -669,14 +730,32 @@
 							>
 
 							<TableBodyCell
-								>{timeBetweenDates(
+								>{#if timeBetweenDates(
 									calculatePrivateProgressCheckDates(
 										courseProgress[0].reservationsPerWeek,
 										4,
 										courseProgress[0].startDate
 									),
 									new Date()
-								)}</TableBodyCell
+								).negative == true}
+								<P style='color: red; font-weight: bold;'>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										4,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{:else}
+								<P>{timeBetweenDates(
+									calculatePrivateProgressCheckDates(
+										courseProgress[0].reservationsPerWeek,
+										4,
+										courseProgress[0].startDate
+									),
+									new Date()
+								).text}</P>
+								{/if}</TableBodyCell
 							>
 						</TableBodyRow>
 					</TableBody>
