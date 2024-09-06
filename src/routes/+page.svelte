@@ -528,14 +528,17 @@
 				for (let k = 0; k < courseProgress[i].passFailTracker.length; k++) {
 					if (
 						courseProgress[i].reservations[j].status == 'PASSED' &&
-						(courseProgress[i].reservations[j].name.toLowerCase() ==
-							courseProgress[i].passFailTracker[k].name.toLowerCase() ||
-							courseProgress[i].reservations[j].name.toLowerCase() ==
-								courseProgress[i].passFailTracker[k].name.toLowerCase() + ' - repetition')
+						(courseProgress[i].reservations[j].name.toLowerCase().replace(/\s/g, '') ==
+							courseProgress[i].passFailTracker[k].name.toLowerCase().replace(/\s/g, '') ||
+							courseProgress[i].reservations[j].name.toLowerCase().replace(/\s/g, '') ==
+								(courseProgress[i].passFailTracker[k].name.toLowerCase() + ' - repetition').replace(/\s/g, ''))
 					) {
 						courseProgress[i].passFailTracker[k].passed = true;
 					}
+					console.log("1: " + courseProgress[i].reservations[j].name.toLowerCase())
+					console.log("2: " + courseProgress[i].passFailTracker[k].name.toLowerCase() + ' - repetition')
 				}
+				
 			}
 
 			let total = 0;
