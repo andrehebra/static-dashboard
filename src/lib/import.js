@@ -17,34 +17,12 @@ const query = `query Query($all: Boolean, $to: DateTime, $after: String) {
         ... on SingleStudentBooking {
         startsAt
           registration {
-            approvedByStudent
-            approvedByStudentAt
-            asymmetricSeconds
-            audit {
-              createdAt
-              createdById
-              updatedAt
-              updatedById
-            }
-            briefingSeconds
-            comment
-            crossCountrySeconds
-            debriefingSeconds
             id
-            ifrDualSeconds
-            ifrSimSeconds
-            ifrSpicSeconds
             instructor {
               firstName
               lastName
             }
-            instrumentSeconds
-            multiSeconds
             name
-            nightSeconds
-            pilotFlyingSeconds
-            pilotMonitoringSeconds
-            singleSeconds
             status
             student {
               firstName
@@ -63,12 +41,6 @@ const query = `query Query($all: Boolean, $to: DateTime, $after: String) {
                 name
                 status
             }
-            submittedByInstructorAt
-            totalSeconds
-            vfrDualSeconds
-            vfrSimSeconds
-            vfrSoloSeconds
-            vfrSpicSeconds
           }
           cancellation {
             id
