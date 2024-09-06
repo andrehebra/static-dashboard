@@ -535,8 +535,6 @@
 					) {
 						courseProgress[i].passFailTracker[k].passed = true;
 					}
-					console.log("1: " + courseProgress[i].reservations[j].name.toLowerCase())
-					console.log("2: " + courseProgress[i].passFailTracker[k].name.toLowerCase() + ' - repetition')
 				}
 				
 			}
